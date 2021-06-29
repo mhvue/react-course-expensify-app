@@ -7,9 +7,10 @@ module.exports = (env) => {
     const isProduction = env === "production";
     const CSSExtract = new MiniCssExtractPlugin({ filename: "styles.css" })
 
-    console.log("env", env)
+  
     return { 
         entry: "./src/app.js",
+        mode: "development",
         output: {
             path: path.join(__dirname, "public","dist"),
             filename: "bundle.js"
