@@ -66,6 +66,7 @@ module.exports = (env) => {
         plugins: [
             CSSExtract,
             new webpack.DefinePlugin({
+                process: 'process/browser',
                 "process.env.FIREBASE_API-KEY": JSON.stringify(process.env.FIREBASE_API_KEY),
                 "process.env.FIREBASE_AUTH_DOMAIN": JSON.stringify(process.env.FIREBASE_AUTH_DOMTAIN),
                 "process.env.FIREBASE_DATABASE_URL": JSON.stringify(process.env.FIREBASE_DATABASE_URL),
@@ -81,6 +82,11 @@ module.exports = (env) => {
             contentBase: path.join(__dirname, "public"),
             historyApiFallback: true,
             publicPath: "/dist/"
+        },
+        resolve: {
+            alias: {
+                process: "process/browser"
+            },
         }
     
     }
