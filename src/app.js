@@ -10,7 +10,8 @@ import getVisibleExpenses from "./selectors/expenses";
 //Provider provides the store to all the components that make up our app
 import {Provider} from "react-redux";
 import "react-dates/lib/css/_datepicker.css";
-
+import "./firebase/firebase";
+//import "./playground/promises";
 const store = configureStore();
 
 const jsx = (
