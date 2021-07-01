@@ -4,16 +4,16 @@ import React from "react";
 import { EditExpensePage } from "../../components/EditExpensePage";
 import expenses from "../../selectors/expenses";
 
-let startEditExpense, startRemoveExpense, history, wrapper;
+let editExpense, removeExpense, history, wrapper;
 
 beforeEach(() => {
-  startEditExpense = jest.fn();
-  startRemoveExpense = jest.fn();
+  editExpense = jest.fn();
+  removeExpense = jest.fn();
   history = { push: jest.fn() };
   wrapper = shallow(
     <EditExpensePage
-      startEditExpense={startEditExpense}
-      startRemoveExpense={startRemoveExpense}
+      editExpense={editExpense}
+      removeExpense={removeExpense}
       history={history}
       expense={expenses[2]}
     />
@@ -27,13 +27,13 @@ test('should render EditExpensePage', () => {
 test('should handle editExpense', () => {
   wrapper.find('ExpenseForm').prop('onSubmit')(expenses[2]);
   expect(history.push).toHaveBeenLastCalledWith('/');
-  expect(startEditExpense).toHaveBeenLastCalledWith(expenses[2].id, expenses[2]);
+  expect(editExpense).toHaveBeenLastCalledWith(expenses[2].id, expenses[2]);
 });
 
 test('should handle removeExpense', () => {
   wrapper.find('button').simulate('click');
   expect(history.push).toHaveBeenLastCalledWith('/');
-  expect(startRemoveExpense).toHaveBeenLastCalledWith({
+  expect(removeExpense).toHaveBeenLastCalledWith({
     id: expenses[2].id
   });
 });

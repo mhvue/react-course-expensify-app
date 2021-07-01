@@ -11,7 +11,6 @@ import {
   startSetExpenses, 
   startRemoveExpense,
   startEditExpense} from "../../actions/expenses";
-
 //create the configuration for mockStore
 const createMockStore = configureMockStore([thunk]);
 const uid = "testuid";
@@ -113,7 +112,7 @@ test('should add expense to database and store', (done) => {
 
 test("should set up the SET expense action object with data", () => {
 
-   const action = setExpenses(expenses)
+   const actions = setExpenses(expenses)
    expect(action).toEqual({
      type: "SET_EXPENSES",
      expenses
@@ -124,7 +123,7 @@ test("should fetch expenses from firebase" , (done) => {
   const store = createMockStore(defaultAuthState);
   store.dispatch(startSetExpenses()).then(() => {
     const action = store.getActions();
-    expect(action[0]).toEqual({
+    expect(actions[0]).toEqual({
       type: "SET_EXPENSES",
       expenses
     });

@@ -11,18 +11,6 @@ import * as firebase from "firebase";
 //     measurementId:process.env.FIREBASE_MEASUREMENT_ID
 //   };
 
-
-var firebaseConfig = {
-  apiKey: "AIzaSyBA1aru0FKPTdYsCXiDtwfRurRKA8wAC5Y",
-  authDomain: "expensify-eafd3.firebaseapp.com",
-  databaseURL: "https://expensify-eafd3-default-rtdb.firebaseio.com",
-  projectId: "expensify-eafd3",
-  storageBucket: "expensify-eafd3.appspot.com",
-  messagingSenderId: "50054104282",
-  appId: "1:50054104282:web:8bfc70091f4e789b7d11e3",
-  measurementId: "G-0HGEFMCRZV"
-};
-
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 

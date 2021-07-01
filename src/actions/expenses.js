@@ -11,7 +11,6 @@ export const removeExpense = ({id} = {}) => ({
     type: "REMOVE_EXPENSE",
     id
 });
-
 //EDIT EXPENSE
 export const editExpense = (id, updates) => ({
     type: "EDIT_EXPENSE",
@@ -68,7 +67,7 @@ export const startSetExpenses = () => {
           });
         });
   
-        dispatch(setExpenses(expenses))
+        dispatch(setExpenses(expenses));
       });
     };
   };
