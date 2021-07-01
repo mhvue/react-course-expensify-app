@@ -1,5 +1,12 @@
 import expenses from "../fixtures/expenses";
-import { startAddExpense, editExpense, removeExpense, setExpenses, startSetExpenses} from "../../actions/expenses";
+import { 
+  startAddExpense, 
+  editExpense, 
+  removeExpense, 
+  setExpenses, 
+  startSetExpenses, 
+  startRemoveExpense,
+  startEditExpense} from "../../actions/expenses";
 import { test } from "jest-circus";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
@@ -104,7 +111,7 @@ test('should add expense to database and store', (done) => {
 
 test("should set up the SET expense action object with data", () => {
 
-   const actions = setExpenses(expenses)
+   const action = setExpenses(expenses)
    expect(action).toEqual({
      type: "SET_EXPENSES",
      expenses
@@ -115,10 +122,47 @@ test("should fetch expenses from firebase" , (done) => {
   const store = createMockStore({});
   store.dispatch(startSetExpenses()).then(() => {
     const action = store.getActions();
-    expect(actions[0]).toEqual({
+    expect(action[0]).toEqual({
       type: "SET_EXPENSES",
       expenses
     });
     done();
   });
 });
+
+test("should remove expenses from firebase", (done) => {
+  const store = createMockStore();
+  const id = expenses[2].id;
+  store.dispatch(startRemoveExpense({id})).then(() => {
+    const action = store.getActions();
+    expect(action[0]).toEqual({
+      type: "REMOVE_EXPENSE",
+      id
+    })
+    return database.ref(`expenses/${id}`).once("value");
+  }).then((snapshot) => {
+    expect(snapshot.val()).toBeFalsy();
+    done();
+  }) 
+  });
+
+  test("should edit expenses in firebase", (done) => {
+    const store = createMockStore();
+    const id = expenses[1].id;
+    const updateData = {
+      note: "August rent"
+    }
+    store.dispatch(startEditExpense(id, updateData)).then(() => {
+      const action = store.getActions();
+      expect(action[0]).toEqual({
+        type: "EDIT_EXPENSE",
+        id,
+        updateData
+      });
+      //check if data change in firebase
+      return database.ref(`expenses/${id}`).once('value');
+    }).then((snapshot) => {
+      expect(snapshot.val().note).toBe(updateData.note);
+      done();
+    })
+  });
