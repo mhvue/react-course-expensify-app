@@ -1,5 +1,3 @@
-
-import { expect } from "@jest/globals";
 import expenseReducer from "../../reducers/expenses";
 import expenses from "../fixtures/expenses";
 

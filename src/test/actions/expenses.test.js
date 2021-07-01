@@ -1,4 +1,8 @@
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
+import database from "../../firebase/firebase";
 import expenses from "../fixtures/expenses";
+
 import { 
   startAddExpense, 
   editExpense, 
@@ -7,10 +11,6 @@ import {
   startSetExpenses, 
   startRemoveExpense,
   startEditExpense} from "../../actions/expenses";
-import { test } from "jest-circus";
-import configureMockStore from "redux-mock-store";
-import thunk from "redux-thunk";
-import database from "../../firebase/firebase";
 
 //create the configuration for mockStore
 const createMockStore = configureMockStore([thunk])
