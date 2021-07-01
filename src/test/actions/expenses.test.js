@@ -13,7 +13,9 @@ import {
   startEditExpense} from "../../actions/expenses";
 
 //create the configuration for mockStore
-const createMockStore = configureMockStore([thunk])
+const createMockStore = configureMockStore([thunk]);
+const uid = "testuid";
+const defaultAuthState = {auth: { uid } };
 
 beforeEach((done) => {
   const expensesData ={};
@@ -23,7 +25,7 @@ beforeEach((done) => {
       expensesData[id] = {description, note, amount, createdAt}
   });
 
-  database.ref("expenses").set(expensesData).then(() => {
+  database.ref(`users/${uid}/expenses`).set(expensesData).then(() => {
     done();
   })
 });
@@ -58,7 +60,7 @@ test("should set up add expense action object with provided values", () => {
 });
 
 test('should add expense to database and store', (done) => {
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const expenseData = {
       description: 'Mouse',
       amount: 3000,
@@ -83,7 +85,7 @@ test('should add expense to database and store', (done) => {
   });
 
   test('should add expense with defaults to database and store', (done) => {
-    const store = createMockStore({});
+    const store = createMockStore(defaultAuthState);
     const expenseDefaults = {
       description: '',
       amount: 0,
@@ -119,7 +121,7 @@ test("should set up the SET expense action object with data", () => {
 });
 
 test("should fetch expenses from firebase" , (done) => {
-  const store = createMockStore({});
+  const store = createMockStore(defaultAuthState);
   store.dispatch(startSetExpenses()).then(() => {
     const action = store.getActions();
     expect(action[0]).toEqual({
@@ -131,7 +133,7 @@ test("should fetch expenses from firebase" , (done) => {
 });
 
 test("should remove expenses from firebase", (done) => {
-  const store = createMockStore();
+  const store = createMockStore(defaultAuthState);
   const id = expenses[2].id;
   store.dispatch(startRemoveExpense({id})).then(() => {
     const action = store.getActions();
@@ -139,7 +141,7 @@ test("should remove expenses from firebase", (done) => {
       type: "REMOVE_EXPENSE",
       id
     })
-    return database.ref(`expenses/${id}`).once("value");
+    return database.ref(`users/${uid}/expenses/${id}`).once("value");
   }).then((snapshot) => {
     expect(snapshot.val()).toBeFalsy();
     done();
@@ -147,7 +149,7 @@ test("should remove expenses from firebase", (done) => {
   });
 
   test("should edit expenses in firebase", (done) => {
-    const store = createMockStore();
+    const store = createMockStore(defaultAuthState);
     const id = expenses[1].id;
     const updateData = {
       note: "August rent"
