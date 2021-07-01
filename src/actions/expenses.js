@@ -1,4 +1,5 @@
 import database from "../firebase/firebase";
+import expenses from "../test/fixtures/expenses";
 //actions:
 //ADD EXPENSE
 export const addExpense = (expense) => ({
@@ -16,6 +17,13 @@ export const editExpense = (id, updates) => ({
     id,
     updates
 });
+
+//SET_EXPENSES
+export const setExpenses = (expenses) => ({
+    type: "SET_EXPENSES",
+    expenses
+});
+
 
 export const startAddExpense = (expenseData = {}) => {
     return (dispatch) => {
@@ -42,3 +50,22 @@ export const startAddExpense = (expenseData = {}) => {
         });
     }
 }
+
+
+export const startSetExpenses = () => {
+    return (dispatch) => {
+      return database.ref('expenses').once('value').then((snapshot) => {
+        const expenses = [];
+  
+        snapshot.forEach((childSnapshot) => {
+          expenses.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val()
+          });
+        });
+  
+        dispatch(setExpenses(expenses));
+      });
+    };
+  };
+  
