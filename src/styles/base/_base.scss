@@ -1,12 +1,18 @@
+*{
+    box-sizing: border-box;
+}
+
 //rem
 html{
     font-size: 62.5%;
 }
 
 body {
+    color: $dark-gray;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 1.6rem;
     background-color: white;
+    line-height: 1.6;
 }
 
 button {

@@ -11,6 +11,7 @@ import * as firebase from "firebase";
 //     measurementId:process.env.FIREBASE_MEASUREMENT_ID
 //   };
 
+
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
